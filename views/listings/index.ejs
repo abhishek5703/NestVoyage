@@ -5,95 +5,105 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    gap: 2.2rem ;
+    margin-bottom: 2rem;
   }
+
   .filter {
     text-align: center;
-    margin-right: 2rem;
-    margin-top: 2rem;
+    transition: transform 0.2s ease, opacity 0.3s ease;
     opacity: 0.7;
+    width: 60px;
   }
+
   .filter:hover {
     opacity: 1;
     cursor: pointer;
-  }
-  .filter p {
-    font-size: 0.9rem;
+    transform: translateY(-3px);
   }
 
-  .tax-info {
-    display: none;
+  .filter div {
+    font-size: 1.1rem; /* Icon size reduced */
+    background: #f2f2f2;
+    border-radius: 50%;
+    padding: 0.5rem ;
+    margin-bottom: 0.3rem ;
+    transition: background 0.3s;
   }
-  .tax-toggle {
-    border: 1px solid black;
+
+  .filter:hover div {
+    background: #e6e6e6;
+  }
+
+  .filter p {
+    font-size: 0.75rem;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .listing-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .listing-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
     border-radius: 1rem;
-    height: 3.25rem;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .listing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+
+  .card-img-top {
+    height: 20rem;
+    object-fit: cover;
+  }
+
+  .card-body {
     padding: 1rem;
-    margin-left: 2rem;
-    display: flex;
-    align-items: center;
+  }
+
+  .card-text {
+    font-size: 0.95rem;
+  }
+
+  .card-text b {
+    font-size: 1.05rem;
   }
 </style>
 
 <div id="filters">
-  <div class="filter">
-    <div><i class="fa-solid fa-fire"></i></div>
-    <p>Trending</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-bed"></i></div>
-    <p>Rooms</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-mountain-city"></i></div>
-    <p>Iconic Cities</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-mountain"></i></div>
-    <p>Mountain</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-brands fa-fort-awesome"></i></div>
-    <p>Castles</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-person-swimming"></i></div>
-    <p>Amazing Pool</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-campground"></i></div>
-    <p>Camping</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-cow"></i></div>
-    <p>Farms</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-snowflake"></i></div>
-    <p>Arctic</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-igloo"></i></div>
-    <p>Domes</p>
-  </div>
-  <div class="filter">
-    <div><i class="fa-solid fa-ship"></i></div>
-    <p>Boats</p>
-  </div>
-  <div class="tax-toggle">
-    <div class="form-check-reverse form-switch">
-      <input
-        class="form-check-input"
-        type="checkbox"
-        role="switch"
-        id="flexSwitchCheckDefault"
-      />
-      <label class="form-check-label" for="flexSwitchCheckDefault"
-        >Display total after taxes</label
-      >
+  <% const filters = [
+    { icon: "fa-fire", label: "Trending" },
+    { icon: "fa-bed", label: "Rooms" },
+    { icon: "fa-mountain-city", label: "Cities" },
+    { icon: "fa-mountain", label: "Mountain" },
+    { icon: "fa-brands fa-fort-awesome", label: " Castles" },
+    { icon: "fa-person-swimming", label: "Pools" },
+    { icon: "fa-campground", label: "Camping" },
+    { icon: "fa-cow", label: "Farms" },
+    { icon: "fa-snowflake", label: "Arctic" },
+    { icon: "fa-igloo", label: "Domes" },
+    { icon: "fa-ship", label: "Boats" },
+    {icon : "fa-hill-rockslide",label : "Hills"},
+    {icon : "fa-gopuram", label: "Temples" } 
+  ]; %>
+
+  <% filters.forEach(f => { %>
+    <div class="filter">
+      <div><i class="fa-solid <%= f.icon %>"></i></div>
+      <p><%= f.label %></p>
     </div>
-  </div>
+  <% }); %>
 </div>
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-1 g-4">
   <% for(let listing of allListings){ %>
   <a href="/listings/<%= listing._id %>" class="listing-link">
     <div class="card col listing-card">
@@ -101,31 +111,14 @@
         src="<%= listing.image.url %>"
         class="card-img-top"
         alt="listing_image"
-        style="height: 20rem"
       />
-      <div class="card-img-overlay"></div>
       <div class="card-body">
         <p class="card-text">
-          <b><%=listing.title%></b> <br />
-          &#8377; <%=listing.price.toLocaleString("en-IN")%> / night
-          <i class="tax-info">&nbsp;&nbsp;+18% GST</i>
+          <b><%= listing.title %></b> <br />
+          &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
         </p>
-        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
       </div>
     </div>
   </a>
   <% } %>
 </div>
-<script>
-  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
-  taxSwitch.addEventListener("click", () => {
-    let taxInfo = document.getElementsByClassName("tax-info");
-    for (info of taxInfo) {
-      if (info.style.display != "inline") {
-        info.style.display = "inline";
-      } else {
-        info.style.display = "none";
-      }
-    }
-  });
-</script>
