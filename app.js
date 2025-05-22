@@ -100,3 +100,7 @@ app.use((err, req, res, next) => {
 app.listen(3000, () => {
     console.log("server is listening at 3000 port");
 });
+
+app.get('/', (req, res) => {
+  res.redirect('/listings');
+});
