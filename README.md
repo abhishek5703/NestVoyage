@@ -56,8 +56,9 @@ SESSION_SECRET=your_secret
 ▶️ 4. Start the Server
 ```
 npm start
-App will run at: http://localhost:3000
 ```
+App will run at: http://localhost:3000
+
 🧪 **How to Use**
 ```
 📝 Register/Login to create and manage listings.
