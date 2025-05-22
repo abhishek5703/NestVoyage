@@ -83,15 +83,3 @@
   </div>
 </div>
 
-<script>
-  // Simple password visibility toggle
-  document.querySelectorAll('.toggle-password').forEach(button => {
-    button.addEventListener('click', function() {
-      const passwordInput = this.closest('.input-group').querySelector('input');
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-      this.querySelector('i').classList.toggle('bi-eye-fill');
-      this.querySelector('i').classList.toggle('bi-eye-slash-fill');
-    });
-  });
-</script>
