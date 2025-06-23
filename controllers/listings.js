@@ -5,27 +5,49 @@ const Listing = require("../models/listing.js");
 //const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
 module.exports.index = async (req, res) => {
-    let { search } = req.query;
-    let allListings;
+    let { search, category, minPrice, maxPrice, location } = req.query;
+    let filter = {};
 
+    // Text search (title, location, country)
     if (search) {
-        const regex = new RegExp(escapeRegex(search), 'gi');
-        allListings = await Listing.find({
-            $or: [
-                { title: regex },
-                { location: regex },
-                { country: regex }
-            ]
-        });
-    } else {
-        allListings = await Listing.find({});
+        const regex = new RegExp(escapeRegex(search), 'i');
+        filter.$or = [
+            { title: regex },
+            { location: regex },
+            { country: regex }
+        ];
     }
+
+    // Filter by category
+    if (category && category !== "") {
+        filter.category = category;
+    }
+
+    // Filter by location (optional separate location input)
+    if (location && location.trim() !== "") {
+        const locationRegex = new RegExp(escapeRegex(location), 'i');
+        filter.location = locationRegex;
+    }
+
+    // Filter by price range
+    if (minPrice || maxPrice) {
+        filter.price = {};
+        if (minPrice) filter.price.$gte = Number(minPrice);
+        if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    let allListings = await Listing.find(filter);
+
 
     res.render("listings/index.ejs", {
         allListings,
         searchQuery: search || null,
-        selectedCategory: null
+        selectedCategory: category || null,
+        minPrice: minPrice || null,
+        maxPrice: maxPrice || null,
+        selectedLocation: location || null
     });
+
 };
 
 
@@ -56,10 +78,10 @@ module.exports.showListing = async (req, res) => {
 
 module.exports.createListing = async (req, res, next) => {
     //let response  = await geocodingClient.forwardGeocode({
-      //  query: req.body.listing.location,
-        //limit: 1
+    //  query: req.body.listing.location,
+    //limit: 1
     //})
-      //  .send()
+    //  .send()
     let url = req.file.path;
     let filename = req.file.filename;
     const newlisting = new Listing(req.body.listing);
@@ -80,8 +102,8 @@ module.exports.renderEditForm = async (req, res) => {
         return res.redirect("/listings");
     }
     let originalImageUrl = listing.image.url;
-    originalImageUrl=originalImageUrl.replace("/upload","/upload/w_250")
-    res.render("listings/edit.ejs", { listing,originalImageUrl });
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250")
+    res.render("listings/edit.ejs", { listing, originalImageUrl });
 };
 
 module.exports.updateListing = async (req, res) => {
@@ -91,7 +113,7 @@ module.exports.updateListing = async (req, res) => {
     let { id } = req.params;
     // Update the listing
     let listing = await Listing.findByIdAndUpdate(id, req.body.listing);
-    if (typeof req.file!=="undefined") {
+    if (typeof req.file !== "undefined") {
         let url = req.file.path;
         let filename = req.file.filename;
         listing.image = { url, filename };
