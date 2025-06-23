@@ -6,18 +6,38 @@ const listingSchema = new Schema({
   title: {
     type: String,
     required: true,
+    trim: true
   },
-  description: String,
+  description: {
+    type: String,
+    trim: true
+  },
   image: {
     url: String,
     filename: String,
   },
-  price: Number,
-  location: String,
-  country: String,
+  price: {
+    type: Number,
+    required: true,
+    min: 0
+  },
+  location: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  country: {
+    type: String,
+    required: true,
+    trim: true
+  },
   category: {
     type: String,
-    required: true, // Make it required if every listing must belong to a category
+    required: true,
+    enum: [
+      "Mountain", "Cities", "Camping", "Pools", "Rooms", "Castles",
+      "Boats", "Farms", "Hills", "Temples", "Trending", "Arctic", "Domes"
+    ]
   },
   reviews: [
     {
@@ -28,8 +48,10 @@ const listingSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required: true
   }
-});
+}, { timestamps: true }); // Add createdAt/updatedAt for sorting/filtering
+
 
 // Cascade delete associated reviews when a listing is deleted
 listingSchema.post("findOneAndDelete", async (listing) => {

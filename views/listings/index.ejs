@@ -93,18 +93,29 @@
   }
 </style>
 
-<!-- Current Search Status -->
-<% if (searchQuery || selectedCategory) { %>
+<!-- Active Filter Display -->
+<% if (searchQuery || selectedCategory || selectedLocation || minPrice || maxPrice) { %>
   <div class="mb-3">
     <h6 class="text-muted fw-semibold">
       Showing results
       <% if (searchQuery) { %> for "<%= searchQuery %>" <% } %>
       <% if (selectedCategory) { %> in "<%= selectedCategory %>" <% } %>
+      <% if (selectedLocation) { %> near "<%= selectedLocation %>" <% } %>
+      <% if (minPrice || maxPrice) { %>
+        with price
+        <% if (minPrice) { %> ≥ ₹<%= minPrice %> <% } %>
+        <% if (minPrice && maxPrice) { %> and <% } %>
+        <% if (maxPrice) { %> ≤ ₹<%= maxPrice %> <% } %>
+      <% } %>
     </h6>
+
+    <a href="/listings" class="btn btn-outline-secondary btn-sm mt-2">
+      <i class="fa-solid fa-filter-circle-xmark me-1"></i> Clear Filters
+    </a>
   </div>
 <% } %>
 
-<!-- Filter Section -->
+<!-- Filter Categories -->
 <div id="filters">
   <% const filters = [
     "Trending", "Rooms", "Cities", "Mountain",
@@ -128,8 +139,12 @@
 
   <% filters.forEach(category => { %>
     <a
-      href="/search?<% if (searchQuery) { %>q=<%= searchQuery %>&<% } %>category=<%= category %>"
-      class="filter text-decoration-none"
+      href="/listings?<% if (searchQuery) { %>q=<%= searchQuery %>&<% } %>
+                      <% if (selectedLocation) { %>location=<%= selectedLocation %>&<% } %>
+                      <% if (minPrice) { %>minPrice=<%= minPrice %>&<% } %>
+                      <% if (maxPrice) { %>maxPrice=<%= maxPrice %>&<% } %>
+                      category=<%= category %>"
+      class="filter text-decoration-none <%= selectedCategory === category ? 'text-primary fw-bold' : '' %>"
     >
       <div><i class="fa-solid <%= icons[category] %>"></i></div>
       <p><%= category %></p>

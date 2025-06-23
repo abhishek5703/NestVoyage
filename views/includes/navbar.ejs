@@ -1,11 +1,10 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
   <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
 
-    <!-- Left: Logo + Brand Name + Nav Links -->
+    <!-- Left: Logo + Nav Links -->
     <div class="d-flex align-items-center gap-4">
       <a class="navbar-brand d-flex align-items-center" href="/listings">
-        <!-- PNG Logo -->
-        <img src="/assets/logo-nv.png" alt="NestVoyage Logo" />
+        <img src="/assets/logo-nv.png" alt="NestVoyage Logo" class="logo-img" />
         <div class="brand-text ms-2 d-flex flex-column lh-sm">
           <span class="fs-3 fw-bold">
             <span class="text-dark">Nest</span><span class="text-primary">Voyage</span>
@@ -25,70 +24,91 @@
       </ul>
     </div>
 
-    <!-- Center: Search Bar -->
-    <div class="mx-auto d-none d-md-block" style="max-width: 800px; width: 100%;">
-      <form class="d-flex flex-wrap gap-2" action="/listings" method="GET">
-        <!-- Keyword -->
-        <input class="form-control flex-grow-1" type="search" name="q" placeholder="Search listings..."
-          aria-label="Search" />
-
-        <!-- Category -->
-        <select class="form-select" name="category">
-          <option value="">All Categories</option>
-          <option value="Mountain">Mountain</option>
-          <option value="Cities">Cities</option>
-          <option value="Camping">Camping</option>
-          <option value="Pools">Pools</option>
-          <option value="Rooms">Rooms</option>
-          <option value="Castles">Castles</option>
-          <option value="Boats">Boats</option>
-          <option value="Farms">Farms</option>
-          <option value="Hills">Hills</option>
-          <option value="Temples">Temples</option>
-        </select>
-
-        <!-- Location -->
-        <input class="form-control" type="text" name="location" placeholder="Location" />
-
-        <!-- Min Price -->
-        <input class="form-control" type="number" name="minPrice" placeholder="Min Price" min="0" />
-
-        <!-- Max Price -->
-        <input class="form-control" type="number" name="maxPrice" placeholder="Max Price" min="0" />
-
-        <button class="btn btn-outline-primary" type="submit">Search</button>
+    <!-- Center: Search Bar (Desktop Only) -->
+    <div class="navbar-center-search d-none d-md-flex">
+      <form action="/listings" method="GET" class="w-100">
+        <input class="form-control" type="search" name="q" placeholder="Search listings..." aria-label="Search" />
       </form>
     </div>
 
+    <!-- Right: Filter Dropdown + Auth/User -->
+    <div class="d-flex align-items-center gap-3">
+      <!-- Filter Button -->
+      <div class="dropdown d-none d-md-block">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-filter me-2"></i> Filters
+        </button>
+        <div class="dropdown-menu filter-dropdown-menu">
+          <form class="d-flex flex-column gap-2" action="/listings" method="GET">
+            <!-- Removed Search bar here -->
+            <select class="form-select" name="category">
+              <option value="">All Categories</option>
+              <option value="Mountain">⛰ Mountain</option>
+              <option value="Cities">🏙 Cities</option>
+              <option value="Camping">🏕 Camping</option>
+              <option value="Pools">🏊 Pools</option>
+              <option value="Rooms">🛏 Rooms</option>
+              <option value="Boats">⛵ Boats</option>
+              <option value="Farms">🌾 Farms</option>
+              <option value="Hills">🌄 Hills</option>
+              <option value="Temples">🛕 Temples</option>
+            </select>
+            <input class="form-control" type="text" name="location" placeholder="Location" />
+            <input class="form-control" type="number" name="minPrice" placeholder="Min Price" min="0" />
+            <input class="form-control" type="number" name="maxPrice" placeholder="Max Price" min="0" />
+            <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
 
-    <!-- Right: User Auth -->
-    <ul class="navbar-nav ms-3">
-      <% if (!currUser) { %>
-        <li class="nav-item">
-          <a class="nav-link px-2" href="/login">Log in</a>
-        </li>
-        <li class="nav-item">
-          <a class="btn btn-outline-primary ms-2 px-3" href="/signup">Sign up</a>
-        </li>
+      <!-- User Auth -->
+      <ul class="navbar-nav">
+        <% if (!currUser) { %>
+          <li class="nav-item">
+            <a class="nav-link px-2" href="/login">Log in</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-primary ms-2 px-3" href="/signup">Sign up</a>
+          </li>
         <% } else { %>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
-              data-bs-toggle="dropdown">
-              <span class="me-2">
-                <%= currUser.username %>
-              </span>
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+              <span class="me-2"><%= currUser.username %></span>
               <i class="fa-solid fa-circle-user fs-5"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="/listings/new">Host your property</a></li>
-              <li>
-                <hr class="dropdown-divider">
+              <!-- Mobile View Filters -->
+              <li class="d-md-none px-3 py-2">
+                <form class="d-flex flex-column gap-2" action="/listings" method="GET">
+                  <!-- Removed Search bar here too -->
+                  <select class="form-select" name="category">
+                    <option value="">All Categories</option>
+                    <option value="Mountain">⛰ Mountain</option>
+                    <option value="Cities">🏙 Cities</option>
+                    <option value="Camping">🏕 Camping</option>
+                    <option value="Pools">🏊 Pools</option>
+                    <option value="Rooms">🛏 Rooms</option>
+                    <option value="Boats">⛵ Boats</option>
+                    <option value="Farms">🌾 Farms</option>
+                    <option value="Hills">🌄 Hills</option>
+                    <option value="Temples">🛕 Temples</option>
+                  </select>
+                  <input class="form-control" type="text" name="location" placeholder="Location" />
+                  <input class="form-control" type="number" name="minPrice" placeholder="Min Price" min="0" />
+                  <input class="form-control" type="number" name="maxPrice" placeholder="Max Price" min="0" />
+                  <button class="btn btn-primary w-100" type="submit">Search</button>
+                </form>
               </li>
-              <li><a class="dropdown-item" href="/logout">Log out</a></li>
+              <li><hr class="dropdown-divider d-md-none" /></li>
+
+              <!-- User Dropdown Links -->
+              <li><a class="dropdown-item" href="/listings/new"><i class="fa-solid fa-house-medical me-2"></i>Host your property</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Log out</a></li>
             </ul>
           </li>
-          <% } %>
-    </ul>
-
+        <% } %>
+      </ul>
+    </div>
   </div>
 </nav>
