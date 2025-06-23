@@ -26,16 +26,14 @@
     </div>
 
     <!-- Center: Search Bar -->
-    <div class="mx-auto d-none d-md-block" style="max-width: 600px; width: 100%;">
-      <form class="d-flex" action="/search" method="GET">
-        <input
-          class="form-control me-2"
-          type="search"
-          name="q"
-          placeholder="Search listings..."
-          aria-label="Search"
-        />
-        <select class="form-select me-2" name="category">
+    <div class="mx-auto d-none d-md-block" style="max-width: 800px; width: 100%;">
+      <form class="d-flex flex-wrap gap-2" action="/listings" method="GET">
+        <!-- Keyword -->
+        <input class="form-control flex-grow-1" type="search" name="q" placeholder="Search listings..."
+          aria-label="Search" />
+
+        <!-- Category -->
+        <select class="form-select" name="category">
           <option value="">All Categories</option>
           <option value="Mountain">Mountain</option>
           <option value="Cities">Cities</option>
@@ -48,9 +46,20 @@
           <option value="Hills">Hills</option>
           <option value="Temples">Temples</option>
         </select>
+
+        <!-- Location -->
+        <input class="form-control" type="text" name="location" placeholder="Location" />
+
+        <!-- Min Price -->
+        <input class="form-control" type="number" name="minPrice" placeholder="Min Price" min="0" />
+
+        <!-- Max Price -->
+        <input class="form-control" type="number" name="maxPrice" placeholder="Max Price" min="0" />
+
         <button class="btn btn-outline-primary" type="submit">Search</button>
       </form>
     </div>
+
 
     <!-- Right: User Auth -->
     <ul class="navbar-nav ms-3">
@@ -61,19 +70,24 @@
         <li class="nav-item">
           <a class="btn btn-outline-primary ms-2 px-3" href="/signup">Sign up</a>
         </li>
-      <% } else { %>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-            <span class="me-2"><%= currUser.username %></span>
-            <i class="fa-solid fa-circle-user fs-5"></i>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="/listings/new">Host your property</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/logout">Log out</a></li>
-          </ul>
-        </li>
-      <% } %>
+        <% } else { %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button"
+              data-bs-toggle="dropdown">
+              <span class="me-2">
+                <%= currUser.username %>
+              </span>
+              <i class="fa-solid fa-circle-user fs-5"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="/listings/new">Host your property</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="/logout">Log out</a></li>
+            </ul>
+          </li>
+          <% } %>
     </ul>
 
   </div>
