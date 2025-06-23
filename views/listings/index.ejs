@@ -1,0 +1,167 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0 2.5rem 0;
+    padding: 1rem;
+    background-color: #fafafa;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  }
+
+  .filter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.25s ease, opacity 0.3s ease;
+    opacity: 0.7;
+    width: 70px;
+    color: #212529;
+  }
+
+  .filter:hover {
+    opacity: 1;
+    cursor: pointer;
+    transform: translateY(-4px);
+    color: #0d6efd;
+  }
+
+  .filter div {
+    font-size: 1.3rem;
+    background: #f4f4f4;
+    border-radius: 50%;
+    padding: 0.7rem;
+    margin-bottom: 0.4rem;
+    transition: background 0.3s;
+  }
+
+  .filter:hover div {
+    background: #eaeaea;
+  }
+
+  .filter p {
+    font-size: 0.75rem;
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .listing-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .listing-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .listing-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-img-top {
+    height: 18rem;
+    object-fit: cover;
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .card-text {
+    font-size: 0.95rem;
+    color: #495057;
+  }
+
+  .card-text b {
+    font-size: 1.1rem;
+    color: #212529;
+  }
+</style>
+
+<!-- Current Search Status -->
+<% if (searchQuery || selectedCategory) { %>
+  <div class="mb-3">
+    <h6 class="text-muted fw-semibold">
+      Showing results
+      <% if (searchQuery) { %> for "<%= searchQuery %>" <% } %>
+      <% if (selectedCategory) { %> in "<%= selectedCategory %>" <% } %>
+    </h6>
+  </div>
+<% } %>
+
+<!-- Filter Section -->
+<div id="filters">
+  <% const filters = [
+    "Trending", "Rooms", "Cities", "Mountain",
+    "Pools", "Camping", "Farms", "Arctic",
+    "Domes", "Boats", "Hills", "Temples"
+  ];
+  const icons = {
+    Trending: "fa-fire",
+    Rooms: "fa-bed",
+    Cities: "fa-mountain-city",
+    Mountain: "fa-mountain",
+    Pools: "fa-person-swimming",
+    Camping: "fa-campground",
+    Farms: "fa-cow",
+    Arctic: "fa-snowflake",
+    Domes: "fa-igloo",
+    Boats: "fa-ship",
+    Hills: "fa-hill-rockslide",
+    Temples: "fa-gopuram"
+  }; %>
+
+  <% filters.forEach(category => { %>
+    <a
+      href="/search?<% if (searchQuery) { %>q=<%= searchQuery %>&<% } %>category=<%= category %>"
+      class="filter text-decoration-none"
+    >
+      <div><i class="fa-solid <%= icons[category] %>"></i></div>
+      <p><%= category %></p>
+    </a>
+  <% }) %>
+</div>
+
+<!-- No Results Message -->
+<% if (allListings.length === 0) { %>
+  <div class="alert alert-warning text-center mt-4">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+    No listings found.
+  </div>
+<% } %>
+
+<!-- Listings Grid -->
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-3">
+  <% for (let listing of allListings) { %>
+    <a href="/listings/<%= listing._id %>" class="listing-link col">
+      <div class="card listing-card h-100">
+        <img
+          src="<%= listing.image.url %>"
+          class="card-img-top"
+          alt="Image of <%= listing.title %>"
+        />
+        <div class="card-body">
+          <p class="card-text mb-0">
+            <b><%= listing.title %></b><br />
+            ₹<%= listing.price.toLocaleString("en-IN") %> / night
+          </p>
+        </div>
+      </div>
+    </a>
+  <% } %>
+</div>

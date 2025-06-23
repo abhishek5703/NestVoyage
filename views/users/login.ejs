@@ -1,0 +1,66 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <div class="text-center mb-4">
+            <h2 class="card-title">Welcome to NestVoyage</h2>
+            <p class="text-muted">Please Login continue</p>
+          </div>
+
+          <form action="/login" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username </label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-person-fill"></i>
+                </span>
+                <input 
+                  name="username"
+                  id="username"
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter your username"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="bi bi-lock-fill"></i>
+                </span>
+                <input
+                  name="password"
+                  id="password"
+                  type="password"
+                  class="form-control"
+                  placeholder="Enter your password"
+                  required
+                />
+                <button class="btn btn-outline-secondary toggle-password" type="button">
+                  <i class="bi bi-eye-fill"></i>
+                </button>
+              </div>
+            </div>
+
+            <button class="btn btn-primary w-100 py-2 mb-3" type="submit">
+              Login
+            </button>
+
+            <div class="text-center">
+              <p class="small text-muted">Don't have an account? 
+                <a href="/signup"text-decoration-none>Sign up</a>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

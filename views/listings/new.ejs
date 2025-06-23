@@ -1,0 +1,132 @@
+<% layout("/layouts/boilerplate") %>
+
+  <body class="bg-light">
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-4 p-md-5">
+              <div class="text-center mb-4">
+                <h2 class="fw-bold text-primary">Create a New Listing</h2>
+                <p class="text-muted">Fill out the form to list your property</p>
+              </div>
+
+              <form method="post" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+                <!-- Title Field -->
+                <div class="mb-4">
+                  <label for="title" class="form-label fw-semibold">Title</label>
+                  <input name="listing[title]" placeholder="e.g. Beautiful Beachfront Villa" type="text"
+                    class="form-control form-control-lg" required>
+                  <div class="valid-feedback">Title looks good!</div>
+                  <div class="invalid-feedback">Please provide a title for your listing</div>
+                </div>
+
+                <!-- Description Field -->
+                <div class="mb-4">
+                  <label for="description" class="form-label fw-semibold">Description</label>
+                  <textarea name="listing[description]" placeholder="Describe your property's features and amenities"
+                    class="form-control" rows="4" required></textarea>
+                  <div class="invalid-feedback">Please provide a description (at least 50 characters)</div>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="mb-4">
+                  <label for="image" class="form-label fw-semibold">Property Image</label>
+                  <div class="file-upload-wrapper">
+                    <input name="listing[image]" type="file" class="form-control" accept="image/*" required>
+                  </div>
+                  <small class="text-muted">Upload a high-quality photo of your property</small>
+                </div>
+
+                <!-- Price and Location Row -->
+                <div class="row g-3 mb-4">
+                  <div class="col-md-6">
+                    <label for="price" class="form-label fw-semibold">Price per night (₹)</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-light">₹</span>
+                      <input name="listing[price]" placeholder="1200" type="number" class="form-control" min="1"
+                        required>
+                    </div>
+                    <div class="invalid-feedback">Please enter a valid price</div>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="location" class="form-label fw-semibold">Location</label>
+                    <input name="listing[location]" placeholder="e.g. Jaipur, Rajasthan" type="text"
+                      class="form-control" required>
+                    <div class="invalid-feedback">Please provide a valid location</div>
+                  </div>
+                </div>
+                <!-- Category Field -->
+                <div class="mb-4">
+                  <label for="category" class="form-label fw-semibold">Category</label>
+                  <select name="listing[category]" class="form-select" required>
+                    <option value="" disabled selected>Select a category</option>
+                    <option value="Trending">Trending</option>
+                    <option value="Rooms">Rooms</option>
+                    <option value="Cities">Cities</option>
+                    <option value="Mountain">Mountain</option>
+                    <option value="Castles">Castles</option>
+                    <option value="Pools">Pools</option>
+                    <option value="Camping">Camping</option>
+                    <option value="Farms">Farms</option>
+                    <option value="Arctic">Arctic</option>
+                    <option value="Domes">Domes</option>
+                    <option value="Boats">Boats</option>
+                    <option value="Hills">Hills</option>
+                    <option value="Temples">Temples</option>
+                  </select>
+                  <div class="invalid-feedback">Please select a category</div>
+                </div>
+
+                <!-- Country Field -->
+                <div class="mb-4">
+                  <label for="country" class="form-label fw-semibold">Country</label>
+                  <input name="listing[country]" placeholder="e.g. India" type="text" class="form-control" required>
+                  <div class="invalid-feedback">Please provide a valid country</div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid mt-4">
+                  <button type="submit" class="btn btn-primary btn-lg py-3 fw-semibold">
+                    <i class="bi bi-plus-circle me-2"></i>Create Listing
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <!-- Add Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+  <style>
+    .file-upload-wrapper {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .form-control-lg {
+      padding: 0.75rem 1rem;
+      font-size: 1.1rem;
+    }
+
+    .card {
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background-color: #0d6efd;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #0b5ed7;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+    }
+  </style>
