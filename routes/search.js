@@ -2,26 +2,35 @@ const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listing");
 
-// GET /search?q=keyword&category=CategoryName
+// GET /search?q=keyword&category=CategoryName&location=&minPrice=&maxPrice=
 router.get("/", async (req, res, next) => {
   try {
-    const { q = "", category = "" } = req.query;
+    const { q = "", category = "", location = "", minPrice, maxPrice } = req.query;
     const filter = {};
 
-    // Add keyword filter
     const keyword = q.trim();
     if (keyword) {
+      const regex = new RegExp(keyword, "i");
       filter.$or = [
-        { title: { $regex: keyword, $options: "i" } },
-        { location: { $regex: keyword, $options: "i" } },
-        { description: { $regex: keyword, $options: "i" } },
+        { title: regex },
+        { location: regex },
+        { description: regex },
+        { country: regex }
       ];
     }
 
-    // Add category filter
-    const cat = category.trim();
-    if (cat) {
-      filter.category = cat;
+    if (category.trim()) {
+      filter.category = category.trim();
+    }
+
+    if (location.trim()) {
+      filter.location = new RegExp(location.trim(), "i");
+    }
+
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
     }
 
     const listings = await Listing.find(filter).sort({ createdAt: -1 });
@@ -29,10 +38,14 @@ router.get("/", async (req, res, next) => {
     res.render("listings/index", {
       allListings: listings,
       searchQuery: keyword || null,
-      selectedCategory: cat || null,
+      selectedCategory: category || null,
+      minPrice: minPrice || null,
+      maxPrice: maxPrice || null,
+      selectedLocation: location || null
     });
+
   } catch (err) {
-    next(err); // use error-handling middleware
+    next(err); // handle errors gracefully
   }
 });
 
