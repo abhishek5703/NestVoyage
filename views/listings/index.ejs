@@ -1,182 +1,207 @@
 <% layout("/layouts/boilerplate") %>
 
-<style>
-  #filters {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-    margin: 2rem 0 2.5rem 0;
-    padding: 1rem;
-    background-color: #fafafa;
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  }
+  <style>
+    #filters {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1.25rem;
+      margin: 1rem 0 1.5rem 0;
+      /* ↓ reduced top/bottom margins */
+      padding: 0.75rem 1rem;
+      /* ↓ smaller padding inside */
+      background-color: #fafafa;
+      border: 1px solid #e5e5e5;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+      /* subtle shadow */
+    }
 
-  .filter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    transition: transform 0.25s ease, opacity 0.3s ease;
-    opacity: 0.7;
-    width: 70px;
-    color: #212529;
-  }
 
-  .filter:hover {
-    opacity: 1;
-    cursor: pointer;
-    transform: translateY(-4px);
-    color: #0d6efd;
-  }
+    .filter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.25s ease, opacity 0.3s ease;
+      opacity: 0.7;
+      width: 70px;
+      color: #212529;
+    }
 
-  .filter div {
-    font-size: 1.3rem;
-    background: #f4f4f4;
-    border-radius: 50%;
-    padding: 0.7rem;
-    margin-bottom: 0.4rem;
-    transition: background 0.3s;
-  }
+    .filter:hover {
+      opacity: 1;
+      cursor: pointer;
+      transform: translateY(-4px);
+      color: #0d6efd;
+    }
 
-  .filter:hover div {
-    background: #eaeaea;
-  }
+    .filter div {
+      font-size: 1.3rem;
+      background: #f4f4f4;
+      border-radius: 50%;
+      padding: 0.7rem;
+      margin-bottom: 0.4rem;
+      transition: background 0.3s;
+    }
 
-  .filter p {
-    font-size: 0.75rem;
-    margin: 0;
-    font-weight: 600;
-  }
+    .filter:hover div {
+      background: #eaeaea;
+    }
 
-  .listing-link {
-    text-decoration: none;
-    color: inherit;
-  }
+    .filter p {
+      font-size: 0.75rem;
+      margin: 0;
+      font-weight: 600;
+    }
 
-  .listing-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: none;
-    border-radius: 1rem;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  }
+    .listing-link {
+      text-decoration: none;
+      color: inherit;
+    }
 
-  .listing-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  }
+    .listing-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+      border-radius: 1rem;
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      background-color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
 
-  .card-img-top {
-    height: 18rem;
-    object-fit: cover;
-    border-radius: 1rem 1rem 0 0;
-  }
+    .listing-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
 
-  .card-body {
-    padding: 1rem;
-  }
+    .card-img-top {
+      height: 18rem;
+      object-fit: cover;
+      border-radius: 1rem 1rem 0 0;
+    }
 
-  .card-text {
-    font-size: 0.95rem;
-    color: #495057;
-  }
+    .card-body {
+      padding: 1rem;
+    }
 
-  .card-text b {
-    font-size: 1.1rem;
-    color: #212529;
-  }
-</style>
+    .card-text {
+      font-size: 0.95rem;
+      color: #495057;
+    }
 
-<!-- Active Filter Display -->
-<% if (searchQuery || selectedCategory || selectedLocation || minPrice || maxPrice) { %>
-  <div class="mb-3">
-    <h6 class="text-muted fw-semibold">
-      Showing results
-      <% if (searchQuery) { %> for "<%= searchQuery %>" <% } %>
-      <% if (selectedCategory) { %> in "<%= selectedCategory %>" <% } %>
-      <% if (selectedLocation) { %> near "<%= selectedLocation %>" <% } %>
-      <% if (minPrice || maxPrice) { %>
-        with price
-        <% if (minPrice) { %> ≥ ₹<%= minPrice %> <% } %>
-        <% if (minPrice && maxPrice) { %> and <% } %>
-        <% if (maxPrice) { %> ≤ ₹<%= maxPrice %> <% } %>
-      <% } %>
-    </h6>
+    .card-text b {
+      font-size: 1.1rem;
+      color: #212529;
+    }
 
-    <a href="/listings" class="btn btn-outline-secondary btn-sm mt-2">
-      <i class="fa-solid fa-filter-circle-xmark me-1"></i> Clear Filters
-    </a>
-  </div>
-<% } %>
 
-<!-- Filter Categories -->
-<div id="filters">
-  <% const filters = [
-    "Trending", "Rooms", "Cities", "Mountain",
-    "Pools", "Camping", "Farms", "Arctic",
-    "Domes", "Boats", "Hills", "Temples"
-  ];
-  const icons = {
-    Trending: "fa-fire",
-    Rooms: "fa-bed",
-    Cities: "fa-mountain-city",
-    Mountain: "fa-mountain",
-    Pools: "fa-person-swimming",
-    Camping: "fa-campground",
-    Farms: "fa-cow",
-    Arctic: "fa-snowflake",
-    Domes: "fa-igloo",
-    Boats: "fa-ship",
-    Hills: "fa-hill-rockslide",
-    Temples: "fa-gopuram"
-  }; %>
 
-  <% filters.forEach(category => { %>
-    <a
-      href="/listings?<% if (searchQuery) { %>q=<%= searchQuery %>&<% } %>
-                      <% if (selectedLocation) { %>location=<%= selectedLocation %>&<% } %>
-                      <% if (minPrice) { %>minPrice=<%= minPrice %>&<% } %>
-                      <% if (maxPrice) { %>maxPrice=<%= maxPrice %>&<% } %>
-                      category=<%= category %>"
-      class="filter text-decoration-none <%= selectedCategory === category ? 'text-primary fw-bold' : '' %>"
-    >
-      <div><i class="fa-solid <%= icons[category] %>"></i></div>
-      <p><%= category %></p>
-    </a>
-  <% }) %>
-</div>
+    /* Reduce spacing above filters */
+    .container:first-of-type {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
 
-<!-- No Results Message -->
-<% if (allListings.length === 0) { %>
-  <div class="alert alert-warning text-center mt-4">
-    <i class="fa-solid fa-triangle-exclamation me-2"></i>
-    No listings found.
-  </div>
-<% } %>
+    #filters {
+      margin-top: 0.5rem !important;
+      /* Reduce top margin */
+    }
 
-<!-- Listings Grid -->
-<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-3">
-  <% for (let listing of allListings) { %>
-    <a href="/listings/<%= listing._id %>" class="listing-link col">
-      <div class="card listing-card h-100">
-        <img
-          src="<%= listing.image.url %>"
-          class="card-img-top"
-          alt="Image of <%= listing.title %>"
-        />
-        <div class="card-body">
-          <p class="card-text mb-0">
-            <b><%= listing.title %></b><br />
-            ₹<%= listing.price.toLocaleString("en-IN") %> / night
-          </p>
-        </div>
-      </div>
-    </a>
-  <% } %>
-</div>
+    /* Remove default margin from body or layout wrapper if any */
+    body>.container,
+    main.container {
+      margin-top: 0 !important;
+    }
+
+    /* Optional: prevent double spacing if filter follows another div */
+    #filters+* {
+      margin-top: 1rem;
+    }
+  </style>
+
+
+  </style>
+
+  <!-- Active Filter Display -->
+  <% if (searchQuery || selectedCategory || selectedLocation || minPrice || maxPrice) { %>
+    <div class="mb-1">
+      <h6 class="text-muted fw-semibold">
+        Showing results
+        <% if (searchQuery) { %> for "<%= searchQuery %>" <% } %>
+              <% if (selectedCategory) { %> in "<%= selectedCategory %>" <% } %>
+                    <% if (selectedLocation) { %> near "<%= selectedLocation %>" <% } %>
+                          <% if (minPrice || maxPrice) { %>
+                            with price
+                            <% if (minPrice) { %> ≥ ₹<%= minPrice %>
+                                <% } %>
+                                  <% if (minPrice && maxPrice) { %> and <% } %>
+                                      <% if (maxPrice) { %> ≤ ₹<%= maxPrice %>
+                                          <% } %>
+                                            <% } %>
+      </h6>
+
+      <a href="/listings" class="btn btn-outline-secondary btn-sm mt-2">
+        <i class="fa-solid fa-filter-circle-xmark me-1"></i> Clear Filters
+      </a>
+    </div>
+    <% } %>
+
+      <!-- Category Filter Icons -->
+      <% const queryParams=new URLSearchParams(); %>
+        <% if (searchQuery) queryParams.append("q", searchQuery); %>
+          <% if (selectedLocation) queryParams.append("location", selectedLocation); %>
+            <% if (minPrice) queryParams.append("minPrice", minPrice); %>
+              <% if (maxPrice) queryParams.append("maxPrice", maxPrice); %>
+
+                <div class="w-100 px-3 px-md-5 " id="filters" style="margin-top: 1.25rem;">
+                  <div id="filters" style="margin-top: 1.25rem;">
+                    <% const filters=[ "Trending" , "Rooms" , "Cities" , "Mountain" , "Pools" , "Camping" , "Farms"
+                      , "Arctic" , "Domes" , "Boats" , "Hills" , "Temples" ]; const icons={ Trending: "fa-fire" ,
+                      Rooms: "fa-bed" , Cities: "fa-mountain-city" , Mountain: "fa-mountain" ,
+                      Pools: "fa-person-swimming" , Camping: "fa-campground" , Farms: "fa-cow" , Arctic: "fa-snowflake"
+                      , Domes: "fa-igloo" , Boats: "fa-ship" , Hills: "fa-hill-rockslide" , Temples: "fa-gopuram" }; %>
+
+                      <% filters.forEach(category=> {
+                        const tempParams = new URLSearchParams(queryParams.toString());
+                        tempParams.set("category", category);
+                        %>
+                        <a href="/listings?<%= tempParams.toString() %>"
+                          class="filter text-decoration-none <%= selectedCategory === category ? 'text-primary fw-bold' : '' %>">
+                          <div><i class="fa-solid <%= icons[category] %>"></i></div>
+                          <p>
+                            <%= category %>
+                          </p>
+                        </a>
+                        <% }) %>
+                  </div>
+                </div>
+
+                <!--No Results-->
+                <% if (allListings.length===0) { %>
+                  <div class="alert alert-warning text-center mt-4">
+                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                    No listings found.
+                  </div>
+                  <% } %>
+
+                    <!--Listings -->
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-3">
+                      <% allListings.forEach(listing=> { %>
+                        <a href="/listings/<%= listing._id %>" class="listing-link col">
+                          <div class="card listing-card h-100">
+                            <img src="<%= listing.image.url %>" class="card-img-top"
+                              alt="Image of <%= listing.title %>" />
+                            <div class="card-body">
+                              <p class="card-text mb-0">
+                                <b>
+                                  <%= listing.title %>
+                                </b><br />
+                                ₹<%= listing.price.toLocaleString("en-IN") %> / night
+                              </p>
+                            </div>
+                          </div>
+                        </a>
+                        <% }) %>
+                    </div>
