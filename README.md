@@ -1,20 +1,25 @@
 # 🏡 **NestVoyage**
 
-**NestVoyage** is a full-stack web application where users can **explore rental properties**, **create their own listings**, and **engage with others** through reviews and comments.
+**NestVoyage** is a full-stack rental platform where users can **explore properties**, **create their own listings**, **leave reviews**, and **connect with owners** for bookings.
 
-> Built using **HTML**, **CSS**, **JavaScript**, **Bootstrap**, **Node.js**, **Express**, and **MongoDB**, with **Cloudinary** for image hosting and **Passport.js** for authentication.
+> Built using **Node.js**, **Express**, **MongoDB**, **EJS**, and **Cloudinary**, with **Passport.js** for secure authentication, NestVoyage offers a smooth and responsive rental experience.
+
+---
 
 ---
 
 ## 🌟 **Key Features**
 
-- 🔐 **Secure Authentication** – User login & signup with session handling.
-- 🏠 **Listing Management** – Add, edit, and delete property listings.
-- 🖼️ **Photo Uploads** – Upload images using Cloudinary.
-- 💬 **User Interaction** – Comment and review listings.
-- 🌐 **Guest Browsing** – View listings without logging in.
-- 📱 **Responsive UI** – Bootstrap-based mobile-friendly design.
-- 🧠 **MVC Architecture** – Clean code separation via the MVC pattern.
+- 🔐 **Authentication** — User registration, login, and session management.  
+- 🏠 **Property Listings** — Registered users can add their own property listings.
+- ✏️ **Listing Management** — Users can **edit or delete only their own listings**.
+- 💬 **Reviews & Comments** — Add reviews to listings and read others' feedback.
+- 📞 **Connect with Owners** — View listing details and contact owners for bookings.
+- 🔍 **Search & Filters** — Find listings using filters like **location, price, and rating**.
+- 🖼️ **Image Uploads** — Upload property images via **Cloudinary**.
+- 🌐 **Guest Access** — Browse listings without logging in.
+- 📱 **Responsive Design** — Fully mobile-friendly interface using **Bootstrap**.
+- 🧠 **MVC Pattern** — Structured backend using **Model-View-Controller** architecture.
 
 ---
 
@@ -61,20 +66,37 @@ App will run at: http://localhost:3000
 
 🧪 **How to Use**
 ```
-📝 Register/Login to create and manage listings.
+📝 Register/Login to create and manage your listings.
 
-🏠 Post a Listing with details and photos.
+🏠 Post a Property with images, details, and contact info.
 
-✏️ Edit/Delete your listings any time.
+✏️ Edit or Delete your own listings anytime.
 
-💬 Add Reviews to other properties.
+💬 Add Reviews to listings and read community feedback.
 
-👀 Browse Listings even without signing in.
+📞 Receive Booking Inquiries via your listing’s contact info.
+
+🔍 Search Properties using filters for price, location, and more.
+
+👀 Browse Freely — No login required to view listings.
 ```
 
 🤝 Contributing
 Pull requests are welcome!
 For major changes, please open an issue first to discuss what you’d like to change.
+To contribute:
+
+1. Fork the repo
+
+2. Create a new branch (git checkout -b feature-name)
+
+3. Commit your changes
+
+4. Push to your fork
+
+5. Open a pull request
+
+For significant changes, open an issue first to discuss your proposal.
 
 📬 Contact
  Developer: Abhishek Kumar
