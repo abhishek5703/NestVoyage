@@ -1,127 +1,5 @@
 <% layout("/layouts/boilerplate") %>
 
-  <style>
-    #filters {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: 1.25rem;
-      margin: 1rem 0 1.5rem 0;
-      /* ↓ reduced top/bottom margins */
-      padding: 0.75rem 1rem;
-      /* ↓ smaller padding inside */
-      background-color: #fafafa;
-      
-      /* subtle shadow */
-    }
-
-
-    .filter {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      transition: transform 0.25s ease, opacity 0.3s ease;
-      opacity: 0.7;
-      width: 70px;
-      color: #212529;
-    }
-
-    .filter:hover {
-      opacity: 1;
-      cursor: pointer;
-      transform: translateY(-4px);
-      color: #0d6efd;
-    }
-
-    .filter div {
-      font-size: 1.3rem;
-      background: #f4f4f4;
-      border-radius: 50%;
-      padding: 0.7rem;
-      margin-bottom: 0.4rem;
-      transition: background 0.3s;
-    }
-
-    .filter:hover div {
-      background: #eaeaea;
-    }
-
-    .filter p {
-      font-size: 0.75rem;
-      margin: 0;
-      font-weight: 600;
-    }
-
-    .listing-link {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .listing-card {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: none;
-      border-radius: 1rem;
-      overflow: hidden;
-      margin-bottom: 1.5rem;
-      background-color: #fff;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    }
-
-    .listing-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    }
-
-    .card-img-top {
-      height: 18rem;
-      object-fit: cover;
-      border-radius: 1rem 1rem 0 0;
-    }
-
-    .card-body {
-      padding: 1rem;
-    }
-
-    .card-text {
-      font-size: 0.95rem;
-      color: #495057;
-    }
-
-    .card-text b {
-      font-size: 1.1rem;
-      color: #212529;
-    }
-
-
-
-    /* Reduce spacing above filters */
-    .container:first-of-type {
-      margin-top: 0 !important;
-      padding-top: 0 !important;
-    }
-
-    #filters {
-      margin-top: 0.5rem !important;
-      /* Reduce top margin */
-    }
-
-    /* Remove default margin from body or layout wrapper if any */
-    body>.container,
-    main.container {
-      margin-top: 0 !important;
-    }
-
-    /* Optional: prevent double spacing if filter follows another div */
-    #filters+* {
-      margin-top: 1rem;
-    }
-  </style>
-
-
-  </style>
-
   <!-- Active Filter Display -->
   <% if (searchQuery || selectedCategory || selectedLocation || minPrice || maxPrice) { %>
     <div class="mb-1">
@@ -153,7 +31,7 @@
             <% if (minPrice) queryParams.append("minPrice", minPrice); %>
               <% if (maxPrice) queryParams.append("maxPrice", maxPrice); %>
 
-                <div class="w-100 px-3 px-md-5 " >
+                <div class="w-100 px-3 px-md-5 ">
                   <div id="filters" style="margin-top: 1.25rem;">
                     <% const filters=[ "Trending" , "Rooms" , "Cities" , "Mountain" , "Pools" , "Camping" , "Farms"
                       , "Arctic" , "Domes" , "Boats" , "Hills" , "Temples" ]; const icons={ Trending: "fa-fire" ,
