@@ -81,6 +81,17 @@ App will run at: http://localhost:3000
 👀 Browse Freely — No login required to view listings.
 ```
 
+
+---
+
+## 📸 Demo Screenshot
+
+Here's a preview of the NestVoyage listings page with search and filters:
+
+![NestVoyage Screenshot](./ss.jpg)
+
+---
+
 🤝 Contributing
 Pull requests are welcome!
 For major changes, please open an issue first to discuss what you’d like to change.
@@ -95,6 +106,7 @@ To contribute:
 4. Push to your fork
 
 5. Open a pull request
+
 
 For significant changes, open an issue first to discuss your proposal.
 
