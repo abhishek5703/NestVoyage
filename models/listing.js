@@ -49,6 +49,11 @@ const listingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
     required: true
+  },
+  contact: {
+    name: { type: String, trim: true },
+    email: { type: String, trim: true },
+    phone: { type: String, trim: true }
   }
 }, { timestamps: true }); // Add createdAt/updatedAt for sorting/filtering
 
