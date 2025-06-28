@@ -65,7 +65,7 @@
                 <label for="category" class="form-label fw-semibold">Category</label>
                 <select name="listing[category]" class="form-select" required>
                   <option disabled>Select a category</option>
-                  <% [ "Trending" , "Rooms" , "Cities" , "Mountain" , "Castles" , "Pools" , "Camping" , "Farms"
+                  <% [ "Trending" , "Rooms" , "Cities" , "Mountain"  , "Pools" , "Camping" , "Farms"
                     , "Arctic" , "Domes" , "Boats" , "Hills" , "Temples" ].forEach(cat=> { %>
                     <option value="<%= cat %>" <%=listing.category===cat ? "selected" : "" %>><%= cat %>
                     </option>
