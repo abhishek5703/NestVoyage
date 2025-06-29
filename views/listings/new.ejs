@@ -58,24 +58,31 @@
                 </div>
                 <!-- Category Field -->
                 <div class="mb-4">
-                  <label for="category" class="form-label fw-semibold">Category</label>
-                  <select name="listing[category]" class="form-select" required>
-                    <option value="" disabled selected>Select a category</option>
-                    <option value="Trending">Trending</option>
-                    <option value="Rooms">Rooms</option>
-                    <option value="Cities">Cities</option>
-                    <option value="Mountain">Mountain</option>
-                    <option value="Pools">Pools</option>
-                    <option value="Camping">Camping</option>
-                    <option value="Farms">Farms</option>
-                    <option value="Arctic">Arctic</option>
-                    <option value="Domes">Domes</option>
-                    <option value="Boats">Boats</option>
-                    <option value="Hills">Hills</option>
-                    <option value="Temples">Temples</option>
-                  </select>
-                  <div class="invalid-feedback">Please select a category</div>
+                  <label class="form-label fw-semibold">Category</label>
+                  <table class="table border-0">
+                    <tbody>
+                      <% const categories=["Trending", "Rooms" , "Cities" , "Mountain" , "Pools" , "Camping" , "Farms"
+                        , "Arctic" , "Domes" , "Boats" , "Hills" , "Temples" ]; for (let i=0; i < 6; i++) { %>
+                        <tr>
+                          <% for (let j=0; j < 2; j++) { const index=i + j * 6; const cat=categories[index]; %>
+                            <td class="align-middle">
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="listing[category][]"
+                                  value="<%= cat %>" id="cat-<%= cat %>">
+                                <label class="form-check-label" for="cat-<%= cat %>">
+                                  <%= cat %>
+                                </label>
+                              </div>
+                            </td>
+                            <% } %>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                  </table>
+                  <div class="form-text">Select one or more categories</div>
                 </div>
+
+
 
                 <!-- Country Field -->
                 <div class="mb-4">

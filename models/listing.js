@@ -32,7 +32,7 @@ const listingSchema = new Schema({
     trim: true
   },
   category: {
-    type: String,
+    type: [String],
     required: true,
     enum: [
       "Mountain", "Cities", "Camping", "Pools", "Rooms",

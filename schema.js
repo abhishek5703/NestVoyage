@@ -16,7 +16,12 @@ const listingSchema = Joi.object({
     location: Joi.string().required(),
     country: Joi.string().required(),
     image: Joi.string().allow("", null),
-    category: Joi.string().required(),
+    category: Joi.array().items(
+      Joi.string().valid(
+        "Mountain", "Cities", "Camping", "Pools", "Rooms",
+        "Boats", "Farms", "Hills", "Temples", "Trending", "Arctic", "Domes"
+      )
+    ).min(1).required(),
     contact: Joi.object({
       name: Joi.string().required(),
       email: Joi.string().email().required(),
@@ -24,5 +29,6 @@ const listingSchema = Joi.object({
     }).required()
   }).required()
 });
+
 
 module.exports = { listingSchema, reviewSchema };

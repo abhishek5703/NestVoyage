@@ -20,8 +20,11 @@ module.exports.index = async (req, res) => {
 
     // Filter by category
     if (category && category !== "") {
-        filter.category = category;
+        const categoriesArray = category.split(","); // Assuming CSV from query
+        filter.category = { $in: categoriesArray };
     }
+
+
 
     // Filter by location (optional separate location input)
     if (location && location.trim() !== "") {

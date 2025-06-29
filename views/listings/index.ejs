@@ -65,19 +65,52 @@
                     <!--Listings -->
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-3">
                       <% allListings.forEach(listing=> { %>
-                        <a href="/listings/<%= listing._id %>" class="listing-link col">
-                          <div class="card listing-card h-100">
-                            <img src="<%= listing.image.url %>" class="card-img-top"
-                              alt="Image of <%= listing.title %>" />
-                            <div class="card-body">
-                              <p class="card-text mb-0">
-                                <b>
+                        <div class="col">
+                          <a href="/listings/<%= listing._id %>" class="listing-link text-decoration-none text-dark">
+                            <div class="card listing-card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+                              <!-- Image + Bookmark -->
+                              <div class="position-relative">
+                                <img src="<%= listing.image.url %>" class="card-img-top"
+                                  alt="Image of <%= listing.title %>" style="height: 200px; object-fit: cover;">
+                                <button class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle"
+                                  type="button">
+                                  <i class="bi bi-bookmark"></i>
+                                </button>
+                              </div>
+
+                              <!-- Content -->
+                              <div class="card-body">
+                                <h5 class="card-title fw-semibold mb-1">
                                   <%= listing.title %>
-                                </b><br />
-                                ₹<%= listing.price.toLocaleString("en-IN") %> / night
-                              </p>
+                                </h5>
+                                <p class="mb-1 text-muted">₹<%= listing.price.toLocaleString("en-IN") %> / night</p>
+
+                                <!-- Location -->
+                                <div class="d-flex align-items-center mb-1">
+                                  <i class="bi bi-geo-alt me-1"></i>
+                                  <small class="text-uppercase fw-medium">
+                                    <%= listing.location %>
+                                  </small>
+                                </div>
+
+                                <!-- Country -->
+                                <div class="d-flex align-items-center mb-2">
+                                  <i class="bi bi-globe2 me-1"></i>
+                                  <small class="text-uppercase text-muted">
+                                    <%= listing.country %>
+                                  </small>
+                                </div>
+
+                                <!-- Tags -->
+                                <% if (listing.category) { %>
+                                  <div class="d-flex flex-wrap gap-2">
+                                    <span class="badge text-bg-light rounded-pill px-3 py-2"># <%= listing.category %>
+                                        </span>
+                                  </div>
+                                  <% } %>
+                              </div>
                             </div>
-                          </div>
-                        </a>
-                        <% }) %>
+                          </a>
+                        </div>
+                        <% }); %>
                     </div>

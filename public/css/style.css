@@ -449,26 +449,6 @@ body {
 }
 
 /* Cards */
-.listing-card {
-  border: none !important;
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 1rem;
-  overflow: hidden;
-  background-color: white;
-}
-
-.listing-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-}
-
-.card-img-top {
-  border-radius: 1rem 1rem 0 0 !important;
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
 
 .card-body {
   padding: 1rem !important;
@@ -485,15 +465,8 @@ body {
   color: inherit;
 }
 
-.card-img-overlay {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
 
-.card-img-overlay:hover {
-  opacity: 0.15;
-  background-color: white;
-}
+
 
 
 .listing-link {
@@ -501,26 +474,7 @@ body {
   color: inherit;
 }
 
-.listing-card {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: none;
-  border-radius: 1rem;
-  overflow: hidden;
-  margin-bottom: 1.5rem;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
 
-.listing-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-.card-img-top {
-  height: 18rem;
-  object-fit: cover;
-  border-radius: 1rem 1rem 0 0;
-}
 
 .card-body {
   padding: 1rem;
@@ -535,6 +489,37 @@ body {
   font-size: 1.1rem;
   color: #212529;
 }
+
+
+/* ✨ Final Listing Card Styles */
+
+.listing-card {
+  border: none;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.listing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.card-img-top {
+  height: 18rem;
+  object-fit: cover;
+  border-radius: 1rem 1rem 0 0;
+  transition: transform 0.3s ease;
+}
+
+.listing-card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
 
 
 

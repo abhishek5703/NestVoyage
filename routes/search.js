@@ -20,7 +20,7 @@ router.get("/", async (req, res, next) => {
     }
 
     if (category.trim()) {
-      filter.category = category.trim();
+      filter.category = { $in: [category.trim()] };
     }
 
     if (location.trim()) {
