@@ -60,6 +60,36 @@ function escapeRegex(text) {
 }
 
 
+module.exports.searchByKeyword = async (req, res) => {
+    const { keyword } = req.query;
+    if (!keyword || keyword.trim() === "") {
+        req.flash("error", "Please enter a search term.");
+        return res.redirect("/listings");
+    }
+
+    const regex = new RegExp(escapeRegex(keyword), 'i');
+
+    const allListings = await Listing.find({
+        $or: [
+            { title: regex },
+            { description: regex },
+            { location: regex },
+            { category: regex }
+        ]
+    });
+
+    res.render("listings/index.ejs", {
+        allListings,
+        searchQuery: keyword,
+        selectedCategory: null,
+        minPrice: null,
+        maxPrice: null,
+        selectedLocation: null
+    });
+};
+
+
+
 module.exports.renderNewForm = (req, res) => {
     res.render("listings/new.ejs");
 };
