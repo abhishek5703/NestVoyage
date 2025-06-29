@@ -35,9 +35,9 @@
                   <div id="filters" style="margin-top: 1.25rem;">
                     <% const filters=[ "Trending" , "Rooms" , "Cities" , "Mountain" , "Pools" , "Camping" , "Farms"
                       , "Arctic" , "Domes" , "Boats" , "Hills" , "Temples" ]; const icons={ Trending: "fa-fire" ,
-                      Rooms: "fa-bed" , Cities: "fa-mountain-city" , Mountain: "fa-mountain" ,
-                      Pools: "fa-person-swimming" , Camping: "fa-campground" , Farms: "fa-cow" , Arctic: "fa-snowflake"
-                      , Domes: "fa-igloo" , Boats: "fa-ship" , Hills: "fa-hill-rockslide" , Temples: "fa-gopuram" }; %>
+                      Rooms: "fa-bed" , Cities: "fa-city" , Mountain: "fa-mountain" , Pools: "fa-person-swimming" ,
+                      Camping: "fa-campground" , Farms: "fa-cow" , Arctic: "fa-snowflake" , Domes: "fa-igloo" ,
+                      Boats: "fa-ship" , Hills: "fa-tree" , Temples: "fa-gopuram"} %>
 
                       <% filters.forEach(category=> {
                         const tempParams = new URLSearchParams(queryParams.toString());
@@ -101,7 +101,7 @@
                                 <% if (listing.category) { %>
                                   <div class="d-flex flex-wrap gap-2">
                                     <span class="badge text-bg-light rounded-pill px-3 py-2"># <%= listing.category %>
-                                        </span>
+                                    </span>
                                   </div>
                                   <% } %>
                               </div>

@@ -117,7 +117,7 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 1.25rem;
+  gap: 2rem;
   margin: 1rem 0 1.5rem 0;
   /* ↓ reduced top/bottom margins */
   padding: 0.75rem 1rem;
@@ -129,34 +129,28 @@ body {
 
 
 .filter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: transform 0.25s ease, opacity 0.3s ease;
-  opacity: 0.7;
-  width: 70px;
-  color: #212529;
+  opacity: 0.85;
+  color: #495057;
+  transition: transform 0.2s ease, color 0.2s ease;
+  margin: 0.5;
 }
 
 .filter:hover {
+  transform: translateY(-2px);
   opacity: 1;
-  cursor: pointer;
-  transform: translateY(-4px);
   color: #0d6efd;
 }
 
 .filter div {
-  font-size: 1.3rem;
-  background: #f4f4f4;
-  border-radius: 50%;
-  padding: 0.7rem;
-  margin-bottom: 0.4rem;
-  transition: background 0.3s;
+  font-size: 1.4rem;
+  color: #6c757d;
+  transition: color 0.3s ease, transform 0.3s ease;
+  padding: 0.5rem;
 }
 
 .filter:hover div {
-  background: #eaeaea;
+  color: #0d6efd;
+  transform: scale(1.1);
 }
 
 .filter p {
