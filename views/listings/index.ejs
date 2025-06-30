@@ -1,112 +1,97 @@
 <% layout("/layouts/boilerplate") %>
 
-  <!-- Active Filter Display -->
-  <% if (searchQuery || selectedCategory || selectedLocation || minPrice || maxPrice) { %>
-    <div class="mb-1">
-      <h6 class="text-muted fw-semibold">
-        Showing results
-        <% if (searchQuery) { %> for "<%= searchQuery %>" <% } %>
-              <% if (selectedCategory) { %> in "<%= selectedCategory %>" <% } %>
-                    <% if (selectedLocation) { %> near "<%= selectedLocation %>" <% } %>
-                          <% if (minPrice || maxPrice) { %>
-                            with price
-                            <% if (minPrice) { %> ≥ ₹<%= minPrice %>
-                                <% } %>
-                                  <% if (minPrice && maxPrice) { %> and <% } %>
-                                      <% if (maxPrice) { %> ≤ ₹<%= maxPrice %>
-                                          <% } %>
-                                            <% } %>
-      </h6>
+<!-- Active Filter Display -->
+<% if (searchQuery || selectedCategory || selectedLocation || minPrice || maxPrice) { %>
+  <div class="mb-3">
+    <h6 class="text-muted fw-semibold">
+      Showing results
+      <% if (searchQuery) { %> for "<%= searchQuery %>" <% } %>
+      <% if (selectedCategory) { %> in "<%= selectedCategory %>" <% } %>
+      <% if (selectedLocation) { %> near "<%= selectedLocation %>" <% } %>
+      <% if (minPrice || maxPrice) { %>
+        with price
+        <% if (minPrice) { %> ≥ ₹<%= minPrice %> <% } %>
+        <% if (minPrice && maxPrice) { %> and <% } %>
+        <% if (maxPrice) { %> ≤ ₹<%= maxPrice %> <% } %>
+      <% } %>
+    </h6>
+    <a href="/listings" class="btn btn-outline-secondary btn-sm mt-2">
+      <i class="fa-solid fa-filter-circle-xmark me-1"></i> Clear Filters
+    </a>
+  </div>
+<% } %>
 
-      <a href="/listings" class="btn btn-outline-secondary btn-sm mt-2">
-        <i class="fa-solid fa-filter-circle-xmark me-1"></i> Clear Filters
+<!-- Category Filter Icons -->
+<% const queryParams = new URLSearchParams(); %>
+<% if (searchQuery) queryParams.append("q", searchQuery); %>
+<% if (selectedLocation) queryParams.append("location", selectedLocation); %>
+<% if (minPrice) queryParams.append("minPrice", minPrice); %>
+<% if (maxPrice) queryParams.append("maxPrice", maxPrice); %>
+
+<div class="w-100 px-2 px-md-4">
+  <div id="filters" class="d-flex flex-nowrap overflow-auto gap-3 py-3">
+    <% const filters = [ "Trending", "Rooms", "Cities", "Mountain", "Pools", "Camping", "Farms", "Arctic", "Domes", "Boats", "Hills", "Temples" ]; 
+       const icons = {
+         Trending: "fa-fire", Rooms: "fa-bed", Cities: "fa-city", Mountain: "fa-mountain", Pools: "fa-person-swimming",
+         Camping: "fa-campground", Farms: "fa-cow", Arctic: "fa-snowflake", Domes: "fa-igloo",
+         Boats: "fa-ship", Hills: "fa-tree", Temples: "fa-gopuram"
+       }; 
+    %>
+
+    <% filters.forEach(category => {
+      const tempParams = new URLSearchParams(queryParams.toString());
+      tempParams.set("category", category);
+    %>
+      <a href="/listings?<%= tempParams.toString() %>"
+        class="filter d-flex flex-column align-items-center text-decoration-none px-2 <%= selectedCategory === category ? 'text-primary fw-semibold' : 'text-dark' %>">
+        <div class="fs-5"><i class="fa-solid <%= icons[category] %>"></i></div>
+        <small><%= category %></small>
+      </a>
+    <% }) %>
+  </div>
+</div>
+
+<!-- No Results -->
+<% if (allListings.length === 0) { %>
+  <div class="alert alert-warning text-center mt-4">
+    <i class="fa-solid fa-triangle-exclamation me-2"></i> No listings found.
+  </div>
+<% } %>
+
+<!-- Listings -->
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-3">
+  <% allListings.forEach(listing => { %>
+    <div class="col">
+      <a href="/listings/<%= listing._id %>" class="listing-link text-decoration-none text-dark">
+        <div class="card listing-card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+          <!-- Image -->
+          <div class="position-relative">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="Image of <%= listing.title %>" style="height: 200px; object-fit: cover;">
+          </div>
+
+          <!-- Content -->
+          <div class="card-body">
+            <h5 class="card-title fw-semibold mb-1"><%= listing.title %></h5>
+            <p class="mb-1 text-muted">₹<%= listing.price.toLocaleString("en-IN") %> / night</p>
+
+            <div class="d-flex align-items-center mb-1">
+              <i class="bi bi-geo-alt me-1"></i>
+              <small class="text-uppercase fw-medium"><%= listing.location %></small>
+            </div>
+
+            <div class="d-flex align-items-center mb-2">
+              <i class="bi bi-globe2 me-1"></i>
+              <small class="text-uppercase text-muted"><%= listing.country %></small>
+            </div>
+
+            <% if (listing.category) { %>
+              <div class="d-flex flex-wrap gap-1">
+                <span class="badge text-bg-light rounded-pill px-3 py-2">#<%= listing.category %></span>
+              </div>
+            <% } %>
+          </div>
+        </div>
       </a>
     </div>
-    <% } %>
-
-      <!-- Category Filter Icons -->
-      <% const queryParams=new URLSearchParams(); %>
-        <% if (searchQuery) queryParams.append("q", searchQuery); %>
-          <% if (selectedLocation) queryParams.append("location", selectedLocation); %>
-            <% if (minPrice) queryParams.append("minPrice", minPrice); %>
-              <% if (maxPrice) queryParams.append("maxPrice", maxPrice); %>
-
-                <div class="w-100 px-3 px-md-5 ">
-                  <div id="filters" style="margin-top: 1.25rem;">
-                    <% const filters=[ "Trending" , "Rooms" , "Cities" , "Mountain" , "Pools" , "Camping" , "Farms"
-                      , "Arctic" , "Domes" , "Boats" , "Hills" , "Temples" ]; const icons={ Trending: "fa-fire" ,
-                      Rooms: "fa-bed" , Cities: "fa-city" , Mountain: "fa-mountain" , Pools: "fa-person-swimming" ,
-                      Camping: "fa-campground" , Farms: "fa-cow" , Arctic: "fa-snowflake" , Domes: "fa-igloo" ,
-                      Boats: "fa-ship" , Hills: "fa-tree" , Temples: "fa-gopuram"} %>
-
-                      <% filters.forEach(category=> {
-                        const tempParams = new URLSearchParams(queryParams.toString());
-                        tempParams.set("category", category);
-                        %>
-                        <a href="/listings?<%= tempParams.toString() %>"
-                          class="filter text-decoration-none <%= selectedCategory === category ? 'text-primary fw-bold' : '' %>">
-                          <div><i class="fa-solid <%= icons[category] %>"></i></div>
-                          <p>
-                            <%= category %>
-                          </p>
-                        </a>
-                        <% }) %>
-                  </div>
-                </div>
-
-                <!--No Results-->
-                <% if (allListings.length===0) { %>
-                  <div class="alert alert-warning text-center mt-4">
-                    <i class="fa-solid fa-triangle-exclamation me-2"></i>
-                    No listings found.
-                  </div>
-                  <% } %>
-
-                    <!--Listings -->
-                    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-3">
-                      <% allListings.forEach(listing=> { %>
-                        <div class="col">
-                          <a href="/listings/<%= listing._id %>" class="listing-link text-decoration-none text-dark">
-                            <div class="card listing-card border-0 shadow-sm rounded-4 overflow-hidden h-100">
-                              <!-- Image + Bookmark -->
-                              <div class="position-relative">
-                                <img src="<%= listing.image.url %>" class="card-img-top"
-                                  alt="Image of <%= listing.title %>" style="height: 200px; object-fit: cover;">
-                              </div>
-
-                              <!-- Content -->
-                              <div class="card-body">
-                                <h5 class="card-title fw-semibold mb-1">
-                                  <%= listing.title %>
-                                </h5>
-                                <p class="mb-1 text-muted">₹<%= listing.price.toLocaleString("en-IN") %> / night</p>
-
-                                <!-- Location -->
-                                <div class="d-flex align-items-center mb-1">
-                                  <i class="bi bi-geo-alt me-1"></i>
-                                  <small class="text-uppercase fw-medium">
-                                    <%= listing.location %>
-                                  </small>
-                                </div>
-
-                                <!-- Country -->
-                                <div class="d-flex align-items-center mb-2">
-                                  <i class="bi bi-globe2 me-1"></i>
-                                  <small class="text-uppercase text-muted">
-                                    <%= listing.country %>
-                                  </small>
-                                </div>
-
-                                <!-- Tags -->
-                                <% if (listing.category) { %>
-                                  <div class="d-flex flex-wrap gap-2">
-                                    <span class="badge text-bg-light rounded-pill px-3 py-2"># <%= listing.category %>
-                                    </span>
-                                  </div>
-                                  <% } %>
-                              </div>
-                            </div>
-                          </a>
-                        </div>
-                        <% }); %>
-                    </div>
+  <% }); %>
+</div>
